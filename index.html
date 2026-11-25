@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nuaim Ahmed</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* VOICE: quiet, personal, confident — a well-made business card
+   IDEA: a premium printed contact card you tap, split Personal / Work
+   PICTURE: a large monogram card at the top, then the links as clean rows
+   COLOUR and TYPE: off-white / near-black, one deep green accent; Manrope
+   LAYOUT: single centred column, max 440px, rows with copy buttons */
+:root{color-scheme:light dark;
+  --bg:light-dark(#f4f3ef,#0f1110);
+  --card:light-dark(#ffffff,#181b19);
+  --ink:light-dark(#141614,#eef0ec);
+  --mute:light-dark(#6b6f69,#9aa097);
+  --line:light-dark(#e4e2dc,#262a27);
+  --acc:light-dark(#1f5c45,#7fd1ab);
+  --accbg:light-dark(#e6efe9,#1b2a23)}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 Manrope,system-ui,sans-serif;overflow-x:clip;-webkit-font-smoothing:antialiased}
+main{max-width:440px;margin:0 auto;padding:clamp(28px,6vw,56px) 18px 48px}
+.hero{--hbg:var(--ink);--hink:var(--bg);background:var(--hbg);color:var(--hink);border-radius:24px;padding:28px 24px 24px;position:relative;overflow:hidden;transition:background .25s}
+.mono{width:80px;height:80px;display:grid;place-items:center;border-radius:50%;background:var(--acc);color:var(--card);font-weight:800;font-size:28px;letter-spacing:.5px}
+.logo{display:none;margin:6px auto 4px}
+#lg-work{width:min(62%,230px);height:auto}
+#lg-business{width:min(70%,250px);height:auto;margin-top:-14px;margin-bottom:-44px}
+body[data-g=work] .hero,body[data-g=business] .hero{text-align:center;padding-top:34px}
+body[data-g=work]{--acc:light-dark(#0e7a68,#4fd6a8);--accbg:light-dark(#e3f3ee,#13302a)}
+body[data-g=business]{--acc:light-dark(#1c1c1e,#f2f2f2);--accbg:light-dark(#ececec,#2a2a2c)}
+body[data-g=work] .hero{--hbg:#0b1d35;--hink:#fff}
+body[data-g=business] .hero{--hbg:#1c1c1e;--hink:#fff}
+body[data-g=work] .mono,body[data-g=business] .mono{display:none}
+body[data-g=work] #lg-work,body[data-g=business] #lg-business{display:block}
+body[data-g=work] .tabs button[aria-selected=true]{background:#0b1d35;color:#fff}
+body[data-g=business] .tabs button[aria-selected=true]{background:#1c1c1e;color:#fff}
+@media(prefers-reduced-motion:reduce){.hero{transition:none}}
+h1{font-size:34px;line-height:1.05;margin:18px 0 4px;font-weight:800;text-wrap:balance}
+.role{margin:0;opacity:.72;font-size:16px}
+.loc{margin:14px 0 0;font-size:14px;opacity:.6}
+.role+.role{margin-top:2px}
+.tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:4px;margin:22px 0 0}
+.tabs button{min-height:44px;border:0;border-radius:12px;background:transparent;color:var(--mute);font:600 15px Manrope,system-ui,sans-serif;cursor:pointer;transition:background .15s,color .15s}
+.tabs button[aria-selected=true]{background:var(--ink);color:var(--bg)}
+.tabs button:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.sub{font-size:14px;color:var(--mute);margin:14px 4px 10px;min-height:21px}
+@media(prefers-reduced-motion:reduce){.tabs button{transition:none}}
+.list{background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden}
+.row{display:flex;align-items:center;gap:14px;padding:12px 12px 12px 16px;border-top:1px solid var(--line);min-height:64px}
+.row:first-child{border-top:0}
+.ic{flex:none;width:38px;height:38px;border-radius:11px;background:var(--accbg);color:var(--acc);display:grid;place-items:center}
+.ic svg{width:19px;height:19px}
+.txt{flex:1;text-decoration:none;color:inherit;display:block}
+.txt b{display:block;font-weight:600;font-size:16px}
+.txt span{display:block;color:var(--mute);font-size:14px;overflow-wrap:anywhere}
+.txt:hover b{color:var(--acc)}
+.cp{flex:none;width:44px;height:44px;border:0;border-radius:12px;background:transparent;color:var(--mute);cursor:pointer;display:grid;place-items:center;font:inherit}
+.cp:hover{background:var(--accbg);color:var(--acc)}
+.cp:focus-visible,.txt:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.cp svg{width:18px;height:18px}
+.note{font-size:13px;color:var(--mute);text-align:center;margin:28px 0 0}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:99px;font-size:14px;font-weight:600;opacity:0;transition:.2s;pointer-events:none}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+@media(prefers-reduced-motion:reduce){.toast{transition:none}}
+</style>
+</head>
+<body>
+<main>
+  <section class="hero">
+    <div class="mono">NA</div>
+    <img class="logo" id="lg-work" src="epcm.svg" alt="EPCM Holdings logo">
+    <img class="logo" id="lg-business" src="bynode.svg" alt="byNode logo">
+    <h1>Nuaim Ahmed</h1>
+    <div id="roles"></div>
+    <p class="loc">Gauteng, South Africa</p>
+  </section>
+
+  <div class="tabs" role="tablist" aria-label="Contact sections">
+    <button role="tab" id="tab-personal" data-g="personal" aria-selected="true">Personal</button>
+    <button role="tab" id="tab-business" data-g="business" aria-selected="false">byNode</button>
+    <button role="tab" id="tab-work" data-g="work" aria-selected="false">Work</button>
+  </div>
+  <div style="height:14px"></div>
+  <div class="list" id="list" role="tabpanel"></div>
+
+</main>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+{
+const I={
+  phone:'<path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/>',
+  wa:'<path d="M4 20l1.3-3.9A8.5 8.5 0 1 1 8 18.8z"/><path d="M9 9.5c.3 2 2.2 4 4.5 4.6l1-1.1 1.8.8"/>',
+  mail:'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>',
+  ig:'<rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r=".6" fill="currentColor"/>',
+  in:'<rect x="3.5" y="3.5" width="17" height="17" rx="3"/><path d="M8 10.5V16M8 7.8v.1M11.5 16v-5.5M11.5 13c0-1.6 1-2.6 2.4-2.6S16 11.4 16 13v3"/>',
+  web:'<circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.5 2.6 2.5 14.4 0 17M12 3.5c-2.5 2.6-2.5 14.4 0 17"/>',
+  copy:'<rect x="8" y="8" width="12" height="12" rx="2.5"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/>'
+};
+const svg=k=>'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'+I[k]+'</svg>';
+
+const call={ic:'phone',label:'Call',value:'+27 71 460 9071',href:'tel:+27714609071'};
+const wa={ic:'wa',label:'WhatsApp',value:'+27 71 460 9071',href:'https://wa.me/27714609071'};
+const personal=[
+  call,wa,
+  {ic:'mail',label:'Personal email',value:'nuaimahmed04@gmail.com',href:'mailto:nuaimahmed04@gmail.com'},
+  {ic:'ig',label:'Instagram',value:'@nuaim_ahmed_',href:'https://www.instagram.com/nuaim_ahmed_'}
+];
+const business=[
+  call,wa,
+  {ic:'ig',label:'byNode Instagram',value:'@bynodeco',href:'https://www.instagram.com/bynodeco'}
+];
+const work=[
+  call,wa,
+  {ic:'mail',label:'Work email',value:'nuaima@epcmholdings.com',href:'mailto:nuaima@epcmholdings.com'},
+  {ic:'in',label:'LinkedIn',value:'Nuaim Ahmed',href:'https://www.linkedin.com/in/nuaim-ahmed-9a704135a'}
+];
+const groups={
+  personal:{rows:personal,roles:['Process & Proposal Engineer','Co-founder, byNode']},
+  business:{rows:business,roles:['Co-founder, byNode']},
+  work:{rows:work,roles:['Process & Proposal Engineer','EPCM Holdings']}
+};
+
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const row=(r,i,g)=>`<div class="row"><div class="ic">${svg(r.ic)}</div>
+  <a class="txt" href="${esc(r.href)}" target="_blank" rel="noopener"><b>${esc(r.label)}</b><span>${esc(r.value)}</span></a>
+  <button class="cp" id="cp-${g}-${i}" data-v="${esc(r.value)}" aria-label="Copy ${esc(r.label)}">${svg('copy')}</button></div>`;
+const list=document.getElementById('list'),roles=document.getElementById('roles');
+const tabs=[...document.querySelectorAll('.tabs button')];
+const show=g=>{
+  if(!groups[g])g='personal';
+  tabs.forEach(b=>b.setAttribute('aria-selected',b.dataset.g===g));
+  list.innerHTML=groups[g].rows.map((r,i)=>row(r,i,g)).join('');
+  list.setAttribute('aria-labelledby','tab-'+g);
+  roles.innerHTML=groups[g].roles.map(r=>'<p class="role">'+esc(r)+'</p>').join('');
+  document.body.dataset.g=g;
+};
+tabs.forEach(b=>b.addEventListener('click',()=>{show(b.dataset.g);try{history.replaceState(null,'','#'+b.dataset.g)}catch(_){}}));
+document.querySelector('.tabs').addEventListener('keydown',e=>{
+  const i=tabs.findIndex(b=>b.getAttribute('aria-selected')==='true');
+  const n=e.key==='ArrowRight'?1:e.key==='ArrowLeft'?-1:0;if(!n)return;
+  const b=tabs[(i+n+tabs.length)%tabs.length];b.focus();b.click();
+});
+show(location.hash.slice(1));
+window.addEventListener('hashchange',()=>show(location.hash.slice(1)));
+
+const t=document.getElementById('toast');let tm;
+const say=m=>{t.textContent=m;t.classList.add('on');clearTimeout(tm);tm=setTimeout(()=>t.classList.remove('on'),1600)};
+document.addEventListener('click',async e=>{
+  const b=e.target.closest('.cp');if(!b)return;
+  try{await navigator.clipboard.writeText(b.dataset.v);say('Copied')}catch(_){say(b.dataset.v)}
+});
+}
+</script>
+</body>
+</html>
