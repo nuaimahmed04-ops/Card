@@ -157,15 +157,7 @@ const show=g=>{
   list.setAttribute('aria-labelledby','tab-'+g);
   const f={personal:'personal',business:'bynode',work:'work'}[g];
   const sv=document.getElementById('save');const vcf='nuaim-ahmed-'+f+'.vcf';
-  if(android){
-    const c=C[g],e=encodeURIComponent,fb=new URL(vcf,location.href).href;
-    const em=(G[g].find(r=>r.ic==='gmail'||r.ic==='outlook')||{}).value;
-    sv.href='intent:#Intent;action=android.intent.action.INSERT;type=vnd.android.cursor.dir/contact;'
-      +'S.name='+e('Nuaim Ahmed')+';S.phone='+e('+27714609071')+';i.phone_type=2;'
-      +(em?'S.email='+e(em)+';i.email_type='+(g==='work'?2:1)+';':'')
-      +(c.company?'S.company='+e(c.company)+';':'')+(c.title?'S.job_title='+e(c.title)+';':'')
-      +'S.notes='+e(c.notes)+';S.browser_fallback_url='+e(fb)+';end';
-  }else sv.href=vcf;
+  sv.href=vcf;
   document.getElementById('save-l').textContent={personal:'Save contact',business:'Save byNode contact',work:'Save work contact'}[g];
 };
 tabs.forEach(b=>b.addEventListener('click',()=>{show(b.dataset.g);try{history.replaceState(null,'','#'+b.dataset.g)}catch(_){}}));
@@ -176,6 +168,16 @@ document.querySelector('.tabs').addEventListener('keydown',e=>{
 show(location.hash.slice(1));
 window.addEventListener('hashchange',()=>show(location.hash.slice(1)));
 
+document.getElementById('save').addEventListener('click',async ev=>{
+  if(!android||!navigator.canShare)return;
+  const a=ev.currentTarget;ev.preventDefault();
+  try{
+    const txt=await (await fetch(a.getAttribute('href'))).text();
+    const file=new File([txt],'Nuaim Ahmed.vcf',{type:'text/x-vcard'});
+    if(navigator.canShare({files:[file]})){await navigator.share({files:[file],title:'Nuaim Ahmed'});return}
+  }catch(err){if(err&&err.name==='AbortError')return}
+  location.href=a.getAttribute('href');
+});
 const t=document.getElementById('toast');let tm;
 document.addEventListener('click',async e=>{
   const b=e.target.closest('.cp');if(!b)return;
