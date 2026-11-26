@@ -46,6 +46,13 @@ main{max-width:420px;margin:0 auto;padding:clamp(24px,6vw,52px) 16px 40px}
 .tabs button[aria-selected=true]{color:var(--bg)}
 .tabs button:focus-visible{outline:2px solid var(--ink);outline-offset:-2px;border-radius:12px}
 
+.save{display:flex;align-items:center;justify-content:center;gap:10px;height:54px;margin:0 0 16px;border-radius:18px;background:var(--ink);color:var(--bg);text-decoration:none;font-weight:700;font-size:15.5px;position:relative;overflow:hidden;transition:transform .2s var(--ease)}
+.save svg{width:19px;height:19px}
+.save:active{transform:scale(.98)}
+.save:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+.save::after{content:"";position:absolute;inset:0;background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.22) 50%,transparent 65%);transform:translateX(-100%);animation:shine 3.2s 1.2s var(--ease) infinite}
+@keyframes shine{0%{transform:translateX(-100%)}45%,100%{transform:translateX(100%)}}
+
 /* links: fixed height so every tab is the same size */
 .list{display:flex;flex-direction:column;gap:8px;min-height:calc(4*68px + 3*8px)}
 .row{display:flex;align-items:center;gap:14px;height:68px;padding:0 8px 0 12px;background:var(--card);border:1px solid var(--line);border-radius:18px;animation:up .5s var(--ease) both;transition:transform .2s var(--ease),border-color .2s}
@@ -98,6 +105,8 @@ main{max-width:420px;margin:0 auto;padding:clamp(24px,6vw,52px) 16px 40px}
     <button role="tab" id="tab-work" data-g="work" aria-selected="false">Work</button>
   </div>
 
+  <a class="save" id="save" href="nuaim-ahmed-personal.vcf" download><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="8" r="3.5"/><path d="M3.5 19.5c.8-3.4 3.4-5.5 6.5-5.5 1.3 0 2.5.4 3.5 1M18 14v6M15 17h6"/></svg><span id="save-l">Save contact</span></a>
+
   <div class="list" id="list" role="tabpanel"></div>
 </main>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
@@ -140,6 +149,9 @@ const show=g=>{
   pill.style.transform='translateX('+order.indexOf(g)*100+'%)';
   list.innerHTML=G[g].map((r,i)=>row(r,i,g)).join('');
   list.setAttribute('aria-labelledby','tab-'+g);
+  const f={personal:'personal',business:'bynode',work:'work'}[g];
+  const sv=document.getElementById('save');sv.href='nuaim-ahmed-'+f+'.vcf';
+  document.getElementById('save-l').textContent={personal:'Save contact',business:'Save byNode contact',work:'Save work contact'}[g];
 };
 tabs.forEach(b=>b.addEventListener('click',()=>{show(b.dataset.g);try{history.replaceState(null,'','#'+b.dataset.g)}catch(_){}}));
 document.querySelector('.tabs').addEventListener('keydown',e=>{
